@@ -138,10 +138,16 @@ def format_answer_section(answer_rrsets):
             print(f"\t{rrset}")
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python mydig.py <domain>")
+    try:
+        domain_input = input('mydig ').strip()
+        domain_input = domain_input.strip('"').strip("'")
+    except (EOFError, KeyboardInterrupt):
+        print("\nNo input provided.")
         sys.exit(1)
-    domain = sys.argv[1].rstrip(".")
+    if not domain_input:
+        print("No domain entered. Exiting.")
+        sys.exit(1)
+    domain = domain_input.rstrip(".")
     start = time.time()
     try:
         answers = resolve_iterative(domain)
